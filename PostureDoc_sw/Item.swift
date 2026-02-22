@@ -9,10 +9,14 @@ import Foundation
 import SwiftData
 
 @Model
-final class Item {
-    var timestamp: Date
+final class Item{
+    var id: UUID = UUID()
+    var name: String = ""
+    @Attribute(.externalStorage) var sideImage: Data?
+    @Attribute(.externalStorage) var frontImage: Data?
     
-    init(timestamp: Date) {
-        self.timestamp = timestamp
+    init(theName: String) {
+        name = theName
+       // self.timestamp = timestamp
     }
 }
