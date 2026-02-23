@@ -92,20 +92,23 @@ struct ContentView: View {
         
         var body: some View {
             VStack{
-                if let data = thePicture, let theImage = NSImage(data: data) {
-                    Image(nsImage: theImage)
-                    .resizable()
-                    .scaledToFit() // or .scaledToFill()
-                    .frame(width: pWIdth, height: pHeight)
-                    .border(Color.secondary, width: 2)
-                    .shadow(radius: 10)
-                }else{
-                   Text("No Image")
-                        .frame(width: pWIdth, height: pHeight)
-                        .border(Color.secondary, width: 2)
-                        .shadow(radius: 10)
+                ZStack{
+                    if let data = thePicture, let theImage = NSImage(data: data) {
+                        Image(nsImage: theImage)
+                            .resizable()
+                            .scaledToFit() // or .scaledToFill()
+                            .frame(width: pWIdth, height: pHeight)
+                            .border(Color.secondary, width: 2)
+                            .shadow(radius: 10)
+                    }else{
+                        Text("No Image")
+                            .frame(width: pWIdth, height: pHeight)
+                            .border(Color.secondary, width: 2)
+                            .shadow(radius: 10)
+                    }
+                    PostureMarks(whichPostureView: theView)
+                     .frame(width: pWIdth, height: pHeight)
                 }
-                 
                 PhotosPicker("Select a \(theView) view photo", selection: $selectedItem, matching: .images, photoLibrary: .shared())
                     .onChange(of: selectedItem) { newItem in
                         Task {
@@ -124,7 +127,7 @@ struct ContentView: View {
         }
         
     }
-
+    
     private func addItem() {
         withAnimation {
             let newItem = Item(theName: "Name \(itemCount)")
