@@ -29,4 +29,8 @@ struct PostureDoc_swApp: App {
         }
         .modelContainer(sharedModelContainer)
     }
+    init() {
+            print(URL.applicationSupportDirectory.path(percentEncoded: false))
+        }
+
 }

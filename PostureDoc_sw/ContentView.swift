@@ -22,7 +22,10 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             List(items, selection: $selection) { item in
-                Text(item.name)
+                HStack{
+                    Text(item.firstname)
+                    Text(item.lastname)
+                }
             }
             .navigationSplitViewColumnWidth(min: 180, ideal: 200)
             .toolbar {
@@ -52,24 +55,42 @@ struct ContentView: View {
             }
         }
     }
-
-    private struct DetailView: View {
+    
+    private struct DetailView : View {
         @Bindable var item: Item
-
+        
         var body: some View {
             VStack(alignment: .leading, spacing: 12) {
-                TextField("Name:", text: $item.name)
-                    .textFieldStyle(.roundedBorder)
-                Text("ID: \(item.id.uuidString)")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    Spacer()
-                HStack {
-                    ImageView(thePicture: $item.frontImage,
-                              thisView: "Front")
+                HStack{   TextField("First Name:", text: $item.firstname)
+                        .textFieldStyle(.roundedBorder)
+                    TextField("Last Name:", text: $item.lastname)
+                        .textFieldStyle(.roundedBorder)
                     
-                    ImageView(thePicture: $item.sideImage,
-                              thisView: "Side")
+                }
+                HStack{
+                    TextField("Gender", text: $item.gender)
+                        .textFieldStyle(.roundedBorder)
+                    TextField("Height", value: $item.height, format: .number)
+                        .textFieldStyle(.roundedBorder)
+                }
+                Spacer()
+                HStack {
+                    ImageView(
+                        thePicture: Binding<ImageRec?>(
+                            get: { item.postureAnalysis.count > 0 ? item.postureAnalysis[0].sideImage : nil },
+                            set: { newValue in
+                                if let value = newValue { item.postureAnalysis[0].sideImage = value }
+                            }
+                        ),
+                        thisView: "Front"
+                    )
+                    
+                    ImageView(thePicture: Binding<ImageRec?>(
+                        get: { item.postureAnalysis.count > 0 ? item.postureAnalysis[0].frontImage : nil },
+                        set: { newValue in
+                            if let value = newValue { item.postureAnalysis[0].frontImage = value }
+                        }
+                    ), thisView: "Side")
                 }.padding(10)
             }
             .padding()
@@ -77,27 +98,79 @@ struct ContentView: View {
     }
     
     
+    struct sheetView: View{
+        @Environment(\.dismiss) var dismiss
+        @Binding private var scale: Double
+        @Binding private var rotation: Double
+        @Binding private var translation: CGSize
+        
+        init(scale: Binding<Double>, rotation: Binding<Double>, translation: Binding<CGSize>) {
+            _scale = scale
+            _rotation = rotation
+            _translation = translation
+        }
+        
+        var body: some View{
+            NavigationStack {
+                
+                VStack{
+                    Text("Scale")
+                    Slider(value: $scale, in: 0...3)
+                    Text("Rotation")
+                    Slider(value: $rotation, in: -4...4)
+                    Text("Translation (x / y)")
+                    Slider(value: $translation.width, in: -100...100)
+                    Slider(value: $translation.height, in: -100...100)
+                    
+                }
+                .frame(maxWidth: 400, maxHeight: .infinity)
+                .padding(20)
+                Button("Close"){
+                    dismiss()
+                }
+                                .padding(20)
+            }
+            .presentationDetents([.medium, .large]) // Allows dragging between half and full screen
+            .presentationDragIndicator(.visible) // Show
+
+            
+        }
+    }
+    
     private struct ImageView: View{
-        @Binding var thePicture: Data?
+        @Binding var thePicture: ImageRec?
         @State var theView: String
         @State private var selectedItem: PhotosPickerItem? = nil
+        @State private var showingSheet: Bool = false
+        @State private var scale = 1.0
+        @State private var rotation: Double = 0.0
+        @State private var translation: CGSize = .zero
+        
+        
         let pWIdth: CGFloat = 300
         let pHeight: CGFloat = 450
         
-        init(thePicture: Binding<Data?>,
+        init(thePicture: Binding<ImageRec?>,
              thisView: String) {
-           _thePicture = thePicture
+            _thePicture = thePicture
             _theView = State(initialValue: thisView)
         }
         
         var body: some View {
+            let transform = CGAffineTransform(scaleX: scale, y: scale)
+                .rotated(by: rotation) // Rotates by 45 degrees (radians)
+                .translatedBy(x: translation.width, y: translation.height) // Translates by 50 points
+            
+            
             VStack{
                 ZStack{
-                    if let data = thePicture, let theImage = NSImage(data: data) {
+                    if let data = thePicture?.image, let theImage = NSImage(data: data) {
                         Image(nsImage: theImage)
                             .resizable()
                             .scaledToFit() // or .scaledToFill()
+                            .transformEffect(transform)
                             .frame(width: pWIdth, height: pHeight)
+                            .clipped() 
                             .border(Color.secondary, width: 2)
                             .shadow(radius: 10)
                     }else{
@@ -107,23 +180,36 @@ struct ContentView: View {
                             .shadow(radius: 10)
                     }
                     PostureMarks(whichPostureView: theView)
-                     .frame(width: pWIdth, height: pHeight)
+                        .frame(width: pWIdth, height: pHeight)
                 }
                 PhotosPicker("Select a \(theView) view photo", selection: $selectedItem, matching: .images, photoLibrary: .shared())
-                    .onChange(of: selectedItem) { newItem in
+                    .onChange(of: selectedItem) { _, newItem in
+                        guard let newItem else { return }
                         Task {
-                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                thePicture = data
-                                if let uiImage = NSImage(data: data) {
-                                    // Update your UI with the selected UIImage
+                            do {
+                                if let data = try await newItem.loadTransferable(type: Data.self) {
+                                    thePicture?.image = data
                                 }
+                            } catch {
+                                // Handle loading error if necessary
+                                print("Failed to load image data: \(error)")
                             }
                         }
                     }
-
-
-                                
+                
+                    .padding(10)
+                Button("Edit") {
+                    showingSheet = true
+                }
+                
             }
+            .sheet(isPresented: $showingSheet) {
+                // The content of the sheet is defined here
+                sheetView(scale: $scale,
+                          rotation: $rotation,
+                          translation: $translation)
+            }
+            
         }
         
     }
@@ -136,7 +222,7 @@ struct ContentView: View {
             selection = newItem.id
         }
     }
-
+    
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
