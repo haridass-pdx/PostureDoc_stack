@@ -24,25 +24,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		630B18EC2F497246009684D8 /* PostureDoc_sw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostureDoc_sw.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		630B18EC2F497246009684D8 /* PostureDoc_stack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostureDoc_stack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		630B18FB2F497248009684D8 /* PostureDoc_swTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PostureDoc_swTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		630B19052F497248009684D8 /* PostureDoc_swUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PostureDoc_swUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		630B18EE2F497246009684D8 /* PostureDoc_sw */ = {
+		630B18EE2F497246009684D8 /* PostureDoc_stack */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PostureDoc_sw;
+			path = PostureDoc_stack;
 			sourceTree = "<group>";
 		};
-		630B18FE2F497248009684D8 /* PostureDoc_swTests */ = {
+		630B18FE2F497248009684D8 /* PostureDoc_stackTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PostureDoc_swTests;
+			path = PostureDoc_stackTests;
 			sourceTree = "<group>";
 		};
-		630B19082F497248009684D8 /* PostureDoc_swUITests */ = {
+		630B19082F497248009684D8 /* PostureDoc_stackUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PostureDoc_swUITests;
+			path = PostureDoc_stackUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,9 +75,9 @@
 		630B18E32F497246009684D8 = {
 			isa = PBXGroup;
 			children = (
-				630B18EE2F497246009684D8 /* PostureDoc_sw */,
-				630B18FE2F497248009684D8 /* PostureDoc_swTests */,
-				630B19082F497248009684D8 /* PostureDoc_swUITests */,
+				630B18EE2F497246009684D8 /* PostureDoc_stack */,
+				630B18FE2F497248009684D8 /* PostureDoc_stackTests */,
+				630B19082F497248009684D8 /* PostureDoc_stackUITests */,
 				630B18ED2F497246009684D8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,7 +85,7 @@
 		630B18ED2F497246009684D8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				630B18EC2F497246009684D8 /* PostureDoc_sw.app */,
+				630B18EC2F497246009684D8 /* PostureDoc_stack.app */,
 				630B18FB2F497248009684D8 /* PostureDoc_swTests.xctest */,
 				630B19052F497248009684D8 /* PostureDoc_swUITests.xctest */,
 			);
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		630B18EB2F497246009684D8 /* PostureDoc_sw */ = {
+		630B18EB2F497246009684D8 /* PostureDoc_stack */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 630B190F2F497248009684D8 /* Build configuration list for PBXNativeTarget "PostureDoc_sw" */;
+			buildConfigurationList = 630B190F2F497248009684D8 /* Build configuration list for PBXNativeTarget "PostureDoc_stack" */;
 			buildPhases = (
 				630B18E82F497246009684D8 /* Sources */,
 				630B18E92F497246009684D8 /* Frameworks */,
@@ -108,13 +108,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				630B18EE2F497246009684D8 /* PostureDoc_sw */,
+				630B18EE2F497246009684D8 /* PostureDoc_stack */,
 			);
-			name = PostureDoc_sw;
+			name = PostureDoc_stack;
 			packageProductDependencies = (
 			);
 			productName = PostureDoc_sw;
-			productReference = 630B18EC2F497246009684D8 /* PostureDoc_sw.app */;
+			productReference = 630B18EC2F497246009684D8 /* PostureDoc_stack.app */;
 			productType = "com.apple.product-type.application";
 		};
 		630B18FA2F497248009684D8 /* PostureDoc_swTests */ = {
@@ -131,7 +131,7 @@
 				630B18FD2F497248009684D8 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				630B18FE2F497248009684D8 /* PostureDoc_swTests */,
+				630B18FE2F497248009684D8 /* PostureDoc_stackTests */,
 			);
 			name = PostureDoc_swTests;
 			packageProductDependencies = (
@@ -154,7 +154,7 @@
 				630B19072F497248009684D8 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				630B19082F497248009684D8 /* PostureDoc_swUITests */,
+				630B19082F497248009684D8 /* PostureDoc_stackUITests */,
 			);
 			name = PostureDoc_swUITests;
 			packageProductDependencies = (
@@ -186,7 +186,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 630B18E72F497246009684D8 /* Build configuration list for PBXProject "PostureDoc_sw" */;
+			buildConfigurationList = 630B18E72F497246009684D8 /* Build configuration list for PBXProject "PostureDoc_stack" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -200,7 +200,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				630B18EB2F497246009684D8 /* PostureDoc_sw */,
+				630B18EB2F497246009684D8 /* PostureDoc_stack */,
 				630B18FA2F497248009684D8 /* PostureDoc_swTests */,
 				630B19042F497248009684D8 /* PostureDoc_swUITests */,
 			);
@@ -258,12 +258,12 @@
 /* Begin PBXTargetDependency section */
 		630B18FD2F497248009684D8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 630B18EB2F497246009684D8 /* PostureDoc_sw */;
+			target = 630B18EB2F497246009684D8 /* PostureDoc_stack */;
 			targetProxy = 630B18FC2F497248009684D8 /* PBXContainerItemProxy */;
 		};
 		630B19072F497248009684D8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 630B18EB2F497246009684D8 /* PostureDoc_sw */;
+			target = 630B18EB2F497246009684D8 /* PostureDoc_stack */;
 			targetProxy = 630B19062F497248009684D8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -536,7 +536,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		630B18E72F497246009684D8 /* Build configuration list for PBXProject "PostureDoc_sw" */ = {
+		630B18E72F497246009684D8 /* Build configuration list for PBXProject "PostureDoc_stack" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				630B190D2F497248009684D8 /* Debug */,
@@ -545,7 +545,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		630B190F2F497248009684D8 /* Build configuration list for PBXNativeTarget "PostureDoc_sw" */ = {
+		630B190F2F497248009684D8 /* Build configuration list for PBXNativeTarget "PostureDoc_stack" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				630B19102F497248009684D8 /* Debug */,
