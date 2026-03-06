@@ -28,6 +28,11 @@ import PhotosUI
          thisView: String) {
         _thePicture = thePicture
         _theView = State(initialValue: thisView)
+        _rotation = State(initialValue: thePicture.wrappedValue.rotation)
+        _scale = State(initialValue: thePicture.wrappedValue.scale)
+        let tSize: CGSize = .init(width: thePicture.wrappedValue.translation.x, height: thePicture.wrappedValue.translation.y)
+        _translation = State(initialValue: tSize)
+        
     }
     
     var body: some View {
@@ -77,6 +82,12 @@ import PhotosUI
             }
             
         }
+        .onDisappear {
+            thePicture.scale = self.scale
+            thePicture.translation.x = self.translation.width
+            thePicture.translation.y = self.translation.height  
+            thePicture.rotation = self.rotation
+        }
         .sheet(isPresented: $showingSheet) {
             // The content of the sheet is defined here
             sheetView(scale: $scale,
@@ -90,3 +101,4 @@ import PhotosUI
 #Preview {
   //  ImageView()
 }
+

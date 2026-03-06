@@ -19,11 +19,54 @@ let dragInf = CGFloat.infinity
 
 struct PostureMarks: View{
     @State var whichPostureView: String
+    @State var topMark: CGPoint = CGPoint(x: 0, y: 0)
+    @State var bottomMark: CGPoint = CGPoint(x: 0, y: 0)
     var body: some View {
-        VStack {
-            PostureMark(whichPostureView: whichPostureView,
-                        dragAllowed:  .yonly ,
-                        initalSpot: CGPoint(x: 0, y: 0))
+        GeometryReader { geo in
+            let containerWidth: CGFloat =   geo.size.width
+            let containerHeight: CGFloat =    geo.size.height
+            VStack {
+                ZStack{
+                    middleLine()
+                    PostureMark(
+                        whichPostureView: whichPostureView,
+                        dragAllowed: .yonly,
+                        initalSpot: CGPoint(x: 0, y: 0),
+                        minVal: 0,
+                        maxVal: containerHeight / 2,
+                        theValue: $topMark
+                    )
+                    PostureMark(
+                        whichPostureView: whichPostureView,
+                        dragAllowed: .yonly,
+                        initalSpot: CGPoint(x: 0, y: containerHeight),
+                        minVal: containerHeight / 2,
+                        maxVal: containerHeight,
+                        theValue: $bottomMark
+                    )
+                }
+            }
+        }
+    }
+}
+
+struct middleLine:  View {
+    var body: some View {
+        GeometryReader { geo in
+            
+            let containerWidth: CGFloat =   geo.size.width
+            let containerHeight: CGFloat =    geo.size.height
+            let startPoint = CGPoint(x: containerWidth / 2, y: 0)
+            let endPoint = CGPoint(x: containerWidth / 2, y: containerHeight)
+// Text("Hello, World!")
+            Path { path in
+                            // Move to the starting point
+                            path.move(to: startPoint)
+                            // Draw a line to the ending point
+                            path.addLine(to: endPoint)
+                        }
+                        // Apply stroke properties
+                        .stroke(Color.red, lineWidth: 1)
         }
     }
 }
@@ -31,9 +74,12 @@ struct PostureMarks: View{
 struct PostureMark: View {
     @State var whichPostureView: String
     @State var dragAllowed: dragDirection
+    @State var minVal: Double
+    @State var maxVal: Double
     @State var initalSpot: CGPoint  = CGPoint(x: 0, y: 0)
     @State  var dragAmount = CGSize.zero
     @State private var location = CGPoint(x: 0, y: 0)
+    @Binding  var theValue: CGPoint
     // Initial position of the image
     
     let iSize: CGFloat = 20.0
@@ -41,13 +87,18 @@ struct PostureMark: View {
     
     init(whichPostureView: String,
          dragAllowed: dragDirection,
-         initalSpot: CGPoint) {
+         initalSpot: CGPoint,
+         minVal: Double,
+         maxVal: Double,
+         theValue: Binding<CGPoint>) {
         
         _whichPostureView = State(initialValue: whichPostureView)
         _dragAllowed = State(initialValue: dragAllowed)
         _initalSpot = State(initialValue: initalSpot)
          _location = State(initialValue: initalSpot)
-        
+        _minVal = State(initialValue: minVal)
+        _maxVal = State(initialValue: maxVal)
+        _theValue = theValue
     }
     
     var body: some View {
@@ -60,9 +111,9 @@ struct PostureMark: View {
             
             // Calculate boundaries for the graphic's center
           let  minX: CGFloat =  0
-          let   maxX = containerWidth - iSize / 2
-          let     minY: CGFloat = 0
-          let     maxY = (containerHeight - iSize) / 2
+          let  maxX: CGFloat = containerWidth - iSize / 2
+          let     minY: CGFloat =  CGFloat(minVal)
+          let     maxY: CGFloat = CGFloat(maxVal)
             
             Image(imgName)
                 .resizable()
@@ -101,7 +152,8 @@ struct PostureMark: View {
                                self.location = CGPoint(x: limitedX, y: limitedY)
                                 break
                             }
-                          
+                            theValue = self.location
+                            print("\(theValue)")
 
                         }
                         .onEnded { gesture in
