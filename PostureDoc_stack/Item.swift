@@ -28,6 +28,8 @@ final class PostureAnalysis: Identifiable {
     var date: Date = Date()
     var sideImage: ImageRec  = ImageRec(imagename: "Side Image" )
     var frontImage: ImageRec = ImageRec(imagename: "Front Image")
+    var sidePoints: [PosturePoint] = []
+    var frontPoints: [PosturePoint] = []
     @Attribute(.externalStorage)  var analysis: String = ""
     init(date: Date){
         self.date = date
@@ -53,11 +55,11 @@ struct location: Codable {
 }
 
 @Model
-final class Points {
+final class PosturePoint {
     var id: UUID = UUID()
     var ptname: String = ""
     var ptlocation: location = location(x: 0, y: 0)
-    var next: Points?
+    var next: PosturePoint?
    //  @Relationship(inverse: \Item.)
 
     var item: Item?

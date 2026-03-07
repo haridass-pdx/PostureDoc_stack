@@ -27,6 +27,9 @@ struct PostureView: View {
                 ImageView(thePicture: $item.sideImage, thisView: "Side")
             }
         }
+        .onDisappear {
+            
+        }
         .navigationTitle("Posture Edit")
     }
 }

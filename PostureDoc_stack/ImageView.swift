@@ -58,6 +58,7 @@ import PhotosUI
                         .border(Color.secondary, width: 2)
                         .shadow(radius: 10)
                 }
+                
                 PostureMarks(whichPostureView: theView)
                     .frame(width: pWIdth, height: pHeight)
             }
