@@ -14,6 +14,7 @@ import PhotosUI
  struct ImageView: View{
     @Binding var thePicture: ImageRec
     @State var theView: String
+     @State var thePoints: [ThePoint]
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var showingSheet: Bool = false
     @State private var scale = 1.0
@@ -25,14 +26,15 @@ import PhotosUI
     let pHeight: CGFloat = 450
     
     init(thePicture: Binding<ImageRec>,
-         thisView: String) {
+         thisView: String,
+         thePoints: [ThePoint]) {
         _thePicture = thePicture
         _theView = State(initialValue: thisView)
         _rotation = State(initialValue: thePicture.wrappedValue.rotation)
         _scale = State(initialValue: thePicture.wrappedValue.scale)
         let tSize: CGSize = .init(width: thePicture.wrappedValue.translation.x, height: thePicture.wrappedValue.translation.y)
         _translation = State(initialValue: tSize)
-        
+        _thePoints  = State(initialValue: thePoints)
     }
     
     var body: some View {
@@ -59,7 +61,8 @@ import PhotosUI
                         .shadow(radius: 10)
                 }
                 
-                PostureMarks(whichPostureView: theView)
+                PostureMarks(whichPostureView: theView,
+                             thePoints: thePoints)
                     .frame(width: pWIdth, height: pHeight)
             }
             PhotosPicker("Select a \(theView) view photo", selection: $selectedItem, matching: .images, photoLibrary: .shared())

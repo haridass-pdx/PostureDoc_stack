@@ -19,6 +19,7 @@ let dragInf = CGFloat.infinity
 
 struct PostureMarks: View{
     @State var whichPostureView: String
+    @State var thePoints: [ThePoint]
     @State var topMark: ThePoint = ThePoint(name: "TopMark", position: CGPoint(x: 0, y: 0),
                                             containRect: CGRect(x: 0, y: 0, width: 0, height: 225), dragAllowed: .yonly)
     @State var bottomMark: ThePoint = ThePoint(name: "BottomMark", position: CGPoint(x: 0, y: 450),
@@ -38,6 +39,12 @@ struct PostureMarks: View{
                         whichPostureView: whichPostureView,
                         posturePoint: bottomMark
                     )
+                    ForEach(thePoints.indices, id: \.self) { index in
+                        PostureMark(
+                            whichPostureView: whichPostureView,
+                            posturePoint: thePoints[index]
+                        )
+                    }
                 }
             }
         }
