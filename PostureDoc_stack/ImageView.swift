@@ -14,7 +14,7 @@ import PhotosUI
  struct ImageView: View{
     @Binding var thePicture: ImageRec
     @State var theView: String
-     @State var thePoints: [ThePoint]
+     @State var thePoints: PointList
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var showingSheet: Bool = false
     @State private var scale = 1.0
@@ -27,7 +27,7 @@ import PhotosUI
     
     init(thePicture: Binding<ImageRec>,
          thisView: String,
-         thePoints: [ThePoint]) {
+         thePoints: PointList) {
         _thePicture = thePicture
         _theView = State(initialValue: thisView)
         _rotation = State(initialValue: thePicture.wrappedValue.rotation)

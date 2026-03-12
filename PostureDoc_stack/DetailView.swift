@@ -17,8 +17,8 @@ struct DetailView : View {
     
     var body: some View {
         NavigationStack {
-           
-                
+            
+            
             
             VStack(alignment: .leading, spacing: 12) {
                 HStack{   TextField("First Name:", text: $item.firstname)
@@ -36,34 +36,33 @@ struct DetailView : View {
                 Spacer()
                 Text("Posture List")
                     .font(Font.headline.bold())
-              
-                HStack{
-                 //   Text("Posture Analysis:")
-                    List(item.postureAnalysis) { posture in
-                        NavigationLink((posture.date.formatted(date: .abbreviated, time: .omitted)), value: posture)
-                        }
-                        .navigationDestination(for: PostureAnalysis.self) { posture in
-                            PostureView(item: posture)
-                        }
-
-                }
                 
+                HStack{
+                    //   Text("Posture Analysis:")
+                    List($item.postureAnalysis) { $posture in
+                        NavigationLink(posture.date.formatted(date: .abbreviated, time: .omitted)) {
+                            PostureView(item: $posture)
+                        }
+                    }
+                    
+                    
+                    
+                }
+                .padding()
+                .toolbar {
+                    ToolbarItem(placement: .automatic) {
+                        Button(action: {
+                            print("Button tapped")
+                            addPosture()
+                        }) {
+                            Image(systemName: "plus")
+                        }
+                    }
+                }
+                .navigationTitle("Posture List")
             }
-            .padding()
-            .toolbar {
-                ToolbarItem(placement: .automatic) {
-                          Button(action: {
-                              print("Button tapped")
-                              addPosture()
-                          }) {
-                              Image(systemName: "plus")
-                          }
-                      }
-                  }
-            .navigationTitle("Posture List")
         }
     }
-     
      func addPosture(){
          
          let newItem = PostureAnalysis(date: Date())
@@ -77,3 +76,4 @@ struct DetailView : View {
 #Preview {
    // DetailView()
 }
+
