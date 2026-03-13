@@ -23,10 +23,10 @@ struct PostureMarks: View{
     @State var whichPostureView: String
     @State var thePoints: PointList
     @State var location: CGPoint = .zero
-    @State var topMark: ThePoint = ThePoint(name: "TopMark", position: CGPoint(x: 0, y: 0),
-                                            containRect: CGRect(x: 0, y: 0, width: 0, height: 225), dragAllowed: .yonly)
-    @State var bottomMark: ThePoint = ThePoint(name: "BottomMark", position: CGPoint(x: 0, y: 450),
-                                               containRect: CGRect(x: 0, y: 225, width: 0, height: 225), dragAllowed: .yonly)
+//    @State var topMark: ThePoint = ThePoint(name: topMarkName, position: CGPoint(x: 0, y: 0),
+//                                            containRect: CGRect(x: 0, y: 0, width: 0, height: 225), dragAllowed: .yonly)
+//    @State var bottomMark: ThePoint = ThePoint(name: bottomMarkName, position: CGPoint(x: 0, y: 450),
+//                                               containRect: CGRect(x: 0, y: 225, width: 0, height: 225), dragAllowed: .yonly)
 
     var body: some View {
         GeometryReader { geo in
@@ -43,6 +43,10 @@ struct PostureMarks: View{
                                 if let nextPoint = point.nextPoint {
                                     path.addLine(to: nextPoint.position)
                                 }
+                                if point.dragAllowed == .yonly {
+                                    let nextPoint = CGPoint(x: containerWidth, y: point.position.y)
+                                    path.addLine(to: nextPoint)
+                                }
 
                             }
                         
@@ -51,13 +55,13 @@ struct PostureMarks: View{
                     }
 
                     middleLine()
-                    PostureMark(
-                        whichPostureView: whichPostureView,
-                        posturePoint: topMark)
-                    PostureMark(
-                        whichPostureView: whichPostureView,
-                        posturePoint: bottomMark
-                    )
+//                    PostureMark(
+//                        whichPostureView: whichPostureView,
+//                        posturePoint: topMark)
+//                    PostureMark(
+//                        whichPostureView: whichPostureView,
+//                        posturePoint: bottomMark
+//                    )
                     ForEach($thePoints.points) { $thisPoint in
                       // Removed copyLocation call as per instructions
                        Image(imgName)
@@ -107,8 +111,8 @@ struct PostureMarks: View{
         }
         .onDisappear {
             print(whichPostureView)
-            print(topMark.description)
-            print(bottomMark.description)
+          //  print(topMark.description)
+          //  print(bottomMark.description)
         }
     }
     

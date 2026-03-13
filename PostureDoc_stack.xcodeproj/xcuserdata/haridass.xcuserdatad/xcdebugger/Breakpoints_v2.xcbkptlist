@@ -158,8 +158,8 @@
             filePath = "PostureDoc_stack/PostureMarks.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "PostureDoc_stack/PostureMarks.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
+            startingLineNumber = "297"
+            endingLineNumber = "297"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -184,16 +184,16 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "D82CADDA-0791-4682-84B9-3703DF6C55EF"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PostureDoc_stack/PostureView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
-            landmarkName = "PostureView"
-            landmarkType = "14">
+            startingLineNumber = "173"
+            endingLineNumber = "173"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -206,8 +206,8 @@
             filePath = "PostureDoc_stack/PostureView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -222,8 +222,8 @@
             filePath = "PostureDoc_stack/PostureMarks.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "PostureDoc_stack/PostureMarks.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "PostureDoc_stack/PostureView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
             landmarkName = "init(item:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -280,35 +280,35 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "343EA9FD-1FFC-4546-9F2E-869A30F0777B"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PostureDoc_stack/PostureView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "body"
-            landmarkType = "24">
+            startingLineNumber = "170"
+            endingLineNumber = "170"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "A38F12C5-F264-4E27-9D2E-CDC2A26F9CDF"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PostureDoc_stack/PostureView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "readPoints()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "A38F12C5-F264-4E27-9D2E-CDC2A26F9CDF - bf9c822a0f35d090"
+                  uuid = "A38F12C5-F264-4E27-9D2E-CDC2A26F9CDF - bf9c822a0f35d6c3"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -318,22 +318,114 @@
                   urlString = "file:///Users/haridass/KPRC%20Dropbox/DrK/Documents/My_Programming_Projects/PostureDoc_stack/PostureDoc_stack/PostureView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "89"
-                  endingLineNumber = "89">
+                  startingLineNumber = "102"
+                  endingLineNumber = "102">
                </Location>
                <Location
-                  uuid = "A38F12C5-F264-4E27-9D2E-CDC2A26F9CDF - d0616a55da2088d6"
+                  uuid = "A38F12C5-F264-4E27-9D2E-CDC2A26F9CDF - bf9c822a0f35d6c3"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (PostureDoc_stack.PosturePoint) -&gt; SwiftUI.EmptyView in PostureDoc_stack.PostureView.readPoints() -&gt; ()"
+                  symbolName = "PostureDoc_stack.PostureView.readPoints() -&gt; ()"
                   moduleName = "PostureDoc_stack.debug.dylib"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/haridass/KPRC%20Dropbox/DrK/Documents/My_Programming_Projects/PostureDoc_stack/PostureDoc_stack/PostureView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "89"
-                  endingLineNumber = "89">
+                  startingLineNumber = "102"
+                  endingLineNumber = "102">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "87DF51CB-3374-44EF-955D-265FEA1B070F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PostureDoc_stack/PostureView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "savePoints()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "87DF51CB-3374-44EF-955D-265FEA1B070F - e2e17f254a80b964"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PostureDoc_stack.PostureView.savePoints() -&gt; ()"
+                  moduleName = "PostureDoc_stack.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/haridass/KPRC%20Dropbox/DrK/Documents/My_Programming_Projects/PostureDoc_stack/PostureDoc_stack/PostureView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120">
+               </Location>
+               <Location
+                  uuid = "87DF51CB-3374-44EF-955D-265FEA1B070F - e2e17f254a80b964"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PostureDoc_stack.PostureView.savePoints() -&gt; ()"
+                  moduleName = "PostureDoc_stack.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/haridass/KPRC%20Dropbox/DrK/Documents/My_Programming_Projects/PostureDoc_stack/PostureDoc_stack/PostureView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A5773043-4476-4D1D-879F-2DC48134B7F2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PostureDoc_stack/PostureView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "readPoints()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A5773043-4476-4D1D-879F-2DC48134B7F2 - bf9c822a0f35d6c3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PostureDoc_stack.PostureView.readPoints() -&gt; ()"
+                  moduleName = "PostureDoc_stack.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/haridass/KPRC%20Dropbox/DrK/Documents/My_Programming_Projects/PostureDoc_stack/PostureDoc_stack/PostureView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102">
+               </Location>
+               <Location
+                  uuid = "A5773043-4476-4D1D-879F-2DC48134B7F2 - bf9c822a0f35d6c3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PostureDoc_stack.PostureView.readPoints() -&gt; ()"
+                  moduleName = "PostureDoc_stack.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/haridass/KPRC%20Dropbox/DrK/Documents/My_Programming_Projects/PostureDoc_stack/PostureDoc_stack/PostureView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102">
                </Location>
             </Locations>
          </BreakpointContent>

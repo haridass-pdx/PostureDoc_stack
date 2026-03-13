@@ -28,6 +28,9 @@ enum frontPtNames: String, CaseIterable {
     case ltHip = "Lt Hip"
  }
 
+let topMarkName = "TopMark"
+let bottomMarkName = "BottomMark"
+
 @Observable
 class ThePoint: Identifiable {
     let id = UUID()

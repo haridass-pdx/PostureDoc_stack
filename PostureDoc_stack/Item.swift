@@ -59,11 +59,12 @@ final class PosturePoint {
     var id: UUID = UUID()
     var ptname: String = ""
     var ptlocation: location = location(x: 0, y: 0)
-    var next: PosturePoint?
    //  @Relationship(inverse: \Item.)
 
     var item: Item?
-    init(ptname: String) {
+    init(ptname: String,
+         ptlocation: location) {
         self.ptname = ptname
+        self.ptlocation = ptlocation
     }
 }
