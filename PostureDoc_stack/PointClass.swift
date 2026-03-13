@@ -9,6 +9,25 @@ import Foundation
 import SwiftUI
 import Observation
 
+enum sidePtNames: String, CaseIterable {
+    case headSide = "Head-Side"
+    case shoulder = "Shoulder"
+    case hip = "Hip"
+    case knee = "Knee"
+    case ankle = "Ankle"
+}
+
+enum frontPtNames: String, CaseIterable {
+    case head = "Head"
+    case heart = "Heart"
+    case navel = "Navel"
+    case feet = "Feet"
+    case rtShoulder = "Rt Shoulder"
+    case ltShoulder = "Lt Shoulder"
+   case rtHip = "Rt Hip"
+    case ltHip = "Lt Hip"
+ }
+
 @Observable
 class ThePoint: Identifiable {
     let id = UUID()
