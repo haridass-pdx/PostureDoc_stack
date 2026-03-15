@@ -12,8 +12,14 @@ import AppKit
 import PhotosUI
 
 struct DetailView : View {
+    @EnvironmentObject  var globalData: globalDataRec
     @Environment(\.modelContext) private var modelContext
     @Bindable var item: Item
+    
+//    init(item: Bindable<Item>){
+//        _item = item
+//        globalData.nameRec = item.wrappedValue
+//    }
     
     var body: some View {
         NavigationStack {
@@ -42,6 +48,8 @@ struct DetailView : View {
                     List($item.postureAnalysis) { $posture in
                         NavigationLink(posture.date.formatted(date: .abbreviated, time: .omitted)) {
                             PostureView(item: $posture)
+                                .environmentObject(globalData)
+
                         }
                     }
                     

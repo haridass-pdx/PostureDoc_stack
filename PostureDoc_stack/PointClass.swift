@@ -24,8 +24,9 @@ enum frontPtNames: String, CaseIterable {
     case feet = "Feet"
     case rtShoulder = "Rt Shoulder"
     case ltShoulder = "Lt Shoulder"
-   case rtHip = "Rt Hip"
+    case rtHip = "Rt Hip"
     case ltHip = "Lt Hip"
+    
  }
 
 let topMarkName = "TopMark"

@@ -7,9 +7,17 @@
 
 import SwiftUI
 import SwiftData
+internal import Combine
+
+class globalDataRec: ObservableObject{
+    
+    @Published   var nameRec: Item? = nil
+    @Published   var nameStr  = "Test"
+}
 
 @main
 struct PostureDoc_swApp: App {
+    @StateObject private var globalData = globalDataRec()
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -26,6 +34,7 @@ struct PostureDoc_swApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(globalData)
         }
         .modelContainer(sharedModelContainer)
     }

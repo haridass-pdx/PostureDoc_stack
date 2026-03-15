@@ -10,6 +10,7 @@ import SwiftUI
 
 
 struct PostureView: View {
+@EnvironmentObject  var globalData: globalDataRec
 @Binding  var item: PostureAnalysis
 var frontPoints: PointList = PointList()
 var sidePoints: PointList = PointList()
@@ -150,9 +151,21 @@ var body: some View {
         Text("Posture Analysis")
             .font(.title)
             .bold()
+        NavigationLink("Analysis View") {
+            
+            let height: CGFloat = globalData.nameRec?.height ?? 0
+            AnalysisView(PAItem: $item,
+                         frontPoints: frontPoints,
+                         sidePoints: sidePoints,
+                         height: height)
+            .environmentObject(globalData)
+        }
+
         Form {
             TextField("Enter Date:", value: $item.date,  format: .dateTime.day().month().year())
         }
+        .padding(10)
+                //.disabled(false)
         .padding(10)
         HStack {
             ImageView(

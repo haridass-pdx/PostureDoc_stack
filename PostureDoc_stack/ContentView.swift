@@ -13,6 +13,7 @@ import PhotosUI
 
 
 struct ContentView: View {
+    @EnvironmentObject  var globalData: globalDataRec
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
     @State private var itemCount: Int = 0
@@ -36,8 +37,12 @@ struct ContentView: View {
                 }
             }
         } detail: {
-            if let selected = items.first(where: { $0.id == selection }) {
+            if var selected = items.first(where: { $0.id == selection }) {
+
                 DetailView(item: selected)
+                    .environmentObject(globalData)
+
+                
             } else {
                 Text("Select an item")
             }
@@ -54,6 +59,13 @@ struct ContentView: View {
                 selection = newItems.first?.id
             }
         }
+        .onChange(of: selection) { _, newSelection in
+            if let selected = items.first(where: { $0.id == selection }) {
+                globalData.nameRec = selected
+            }
+        }
+      
+      
     }
     
 

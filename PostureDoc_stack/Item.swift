@@ -21,6 +21,9 @@ final class Item{
         firstname = theName
        // self.timestamp = timestamp
     }
+    func fullName() -> String {
+        "\(firstname) \(lastname)"
+    }
 }
 
 @Model
