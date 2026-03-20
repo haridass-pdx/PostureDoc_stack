@@ -32,7 +32,7 @@ enum frontPtNames: String, CaseIterable {
 let topMarkName = "TopMark"
 let bottomMarkName = "BottomMark"
 
-@Observable
+@Observable @MainActor
 class ThePoint: Identifiable {
     let id = UUID()
     var name: String = ""
@@ -57,7 +57,7 @@ class ThePoint: Identifiable {
     }
 }
 
-@Observable
+@Observable @MainActor
 class PointList{
     var points: [ThePoint] = []
     func append(_ newPoint: ThePoint){

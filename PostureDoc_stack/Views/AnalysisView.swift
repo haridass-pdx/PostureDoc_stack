@@ -15,13 +15,14 @@ struct itemData {
     var name: String = ""
     var shift: shiftStr = .none
     var amount: CGFloat = .zero
+    var calcAmt: CGFloat = .zero
  
     
     mutating func zero(){
         self.name = ""
         self.shift = .none
         self.amount = .zero
-        
+        self.calcAmt = .zero
     }
     
 }
@@ -49,10 +50,10 @@ import SwiftUI
 let scaleAmt = 0.5
 
 struct AnalysisView: View {
-    @Binding  var PAItem: PostureAnalysis
     @EnvironmentObject  var globalData: globalDataRec
     @State var AnalysisText: String = "-blank-"
     @State var nameRec:   Item?
+    var PAItem: PostureAnalysis
     var height: CGFloat
     var frontPoints: PointList = PointList()
     var sidePoints: PointList = PointList()
@@ -60,11 +61,11 @@ struct AnalysisView: View {
     @State   var analysis: analysisData = analysisData()
     
     
-    init(PAItem: Binding<PostureAnalysis>,
+    init(PAItem: PostureAnalysis,
          frontPoints: PointList,
          sidePoints: PointList,
             height: CGFloat) {
-        _PAItem = PAItem
+        self.PAItem = PAItem
         self.frontPoints = frontPoints
         self.sidePoints = sidePoints
         self.height = height
@@ -89,11 +90,11 @@ struct AnalysisView: View {
             VStack{
                 HStack {
                     ShowView(
-                        thePicture: $PAItem.frontImage,
+                        thePicture: PAItem.frontImage,
                         thisView: "Front",
                         thePoints: frontPoints  )
                     .scaleEffect(scaleAmt)
-                    ShowView(thePicture: $PAItem.sideImage,
+                    ShowView(thePicture: PAItem.sideImage,
                              thisView: "Side",
                              thePoints: sidePoints)
                     .scaleEffect(scaleAmt)
@@ -142,27 +143,32 @@ struct AnalysisView: View {
         case  "Head-Side":
             analysis.sHeadPos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.x)
+                                amount: point.position.x,
+                                         calcAmt: 0.00)
             break
         case  "Shoulder":
             analysis.sShoulderPos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.x)
+                                amount: point.position.x,
+                                             calcAmt: 0.00)
             break
         case "Hip":
             analysis.sHipPos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.x)
+                                amount: point.position.x,
+                                        calcAmt: 0.00)
             break
         case  "Knee":
             analysis.sKneePos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.x)
+                                amount: point.position.x,
+                                         calcAmt: 0.00)
             break
         case  "Ankle":
             analysis.sAnklePos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.x)
+                                amount: point.position.x,
+                                          calcAmt: 0.00)
             break
         default:
             break
@@ -194,7 +200,8 @@ struct AnalysisView: View {
         case "Head":
             analysis.fHeadPos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.x)
+                                amount: point.position.x,
+                                         calcAmt: 0.00)
             break
         case "Heart":
             analysis.fHeartPos = itemData(name: point.name,
@@ -205,37 +212,43 @@ struct AnalysisView: View {
         case "Navel":
             analysis.fNavelPos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.x)
+                                amount: point.position.x,
+                                          calcAmt: 0.00)
 
             break
         case  "Feet":
             analysis.fFeetPos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.x)
+                                amount: point.position.x,
+                                         calcAmt: 0.00)
 
             break
         case  "Rt Shoulder":
             analysis.rtShoulderPos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.y)
+                                amount: point.position.y,
+                                              calcAmt: 0.00)
 
             break
         case   "Lt Shoulder":
             analysis.ltShoulderPos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.y)
+                                amount: point.position.y,
+                                              calcAmt: 0.00)
 
             break
         case  "Rt Hip":
             analysis.rtHipPos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.y)
+                                amount: point.position.y,
+                                         calcAmt: 0.00)
 
             break
         case  "Lt Hip":
             analysis.ltHipPos = itemData(name: point.name,
                                     shift: .none,
-                                amount: point.position.y)
+                                amount: point.position.y,
+                                         calcAmt: 0.00)
 
             break
         case  "TopMark":

@@ -12,7 +12,7 @@ import AppKit
 import PhotosUI
 
  struct ShowView: View{
-    @Binding var thePicture: ImageRec
+     var thePicture: ImageRec
     @State var theView: String
      @State var thePoints: PointList
     @State private var selectedItem: PhotosPickerItem? = nil
@@ -25,14 +25,14 @@ import PhotosUI
     let pWIdth: CGFloat = 300
     let pHeight: CGFloat = 450
     
-    init(thePicture: Binding<ImageRec>,
+    init(thePicture: ImageRec,
          thisView: String,
          thePoints: PointList) {
-        _thePicture = thePicture
+        self.thePicture = thePicture
         _theView = State(initialValue: thisView)
-        _rotation = State(initialValue: thePicture.wrappedValue.rotation)
-        _scale = State(initialValue: thePicture.wrappedValue.scale)
-        let tSize: CGSize = .init(width: thePicture.wrappedValue.translation.x, height: thePicture.wrappedValue.translation.y)
+        _rotation = State(initialValue: thePicture.rotation)
+        _scale = State(initialValue: thePicture.scale)
+        let tSize: CGSize = .init(width: thePicture.translation.x, height: thePicture.translation.y)
         _translation = State(initialValue: tSize)
         _thePoints  = State(initialValue: thePoints)
     }
@@ -45,8 +45,9 @@ import PhotosUI
         
         VStack{
             ZStack{
-                if let data = thePicture.image, let theImage = NSImage(data: data) {
-                    Image(nsImage: theImage)
+              if let data = thePicture.image, let theImage = NSImage(data: data) {
+                  Image(nsImage: theImage.toSDR())
+                        .allowedDynamicRange(.standard)
                         .resizable()
                         .scaledToFit() // or .scaledToFill()
                         .transformEffect(transform)
@@ -77,3 +78,14 @@ import PhotosUI
   //  ImageView()
 }
 
+
+
+struct LazyView<Content: View>: View {
+    let build: () -> Content
+    init(_ build: @autoclosure @escaping () -> Content) {
+        self.build = build
+    }
+    var body: some View {
+        build()
+    }
+}
