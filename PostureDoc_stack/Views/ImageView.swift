@@ -48,7 +48,7 @@ import PhotosUI
                 if let data = thePicture.image, let theImage = NSImage(data: data) {
                     Image(nsImage: theImage)
                         .resizable()
-                        .scaledToFit() // or .scaledToFill()
+                        .scaledToFit()
                         .transformEffect(transform)
                         .frame(width: pWIdth, height: pHeight)
                         .clipped()
@@ -71,7 +71,13 @@ import PhotosUI
                     Task {
                         do {
                             if let data = try await newItem.loadTransferable(type: Data.self) {
-                                thePicture.image = data
+                                // Strip HDR metadata on import
+                                if let sdrData = data.strippingHDRMetadata() {
+                                    thePicture.image = sdrData
+                                } else {
+                                    // Fallback to original data if conversion fails
+                                    thePicture.image = data
+                                }
                             }
                         } catch {
                             // Handle loading error if necessary

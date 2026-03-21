@@ -38,6 +38,26 @@ extension NSImage {
     }
 }
 
+extension Data {
+    /// Strips HDR metadata from image data and returns SDR-only JPEG data
+    func strippingHDRMetadata() -> Data? {
+        guard let nsImage = NSImage(data: self) else { return nil }
+        
+        // Convert to SDR using the existing method
+        let sdrImage = nsImage.toSDR()
+        
+        // Convert to JPEG data without HDR metadata
+        guard let tiffData = sdrImage.tiffRepresentation,
+              let bitmapRep = NSBitmapImageRep(data: tiffData) else {
+            return nil
+        }
+        
+        // Create JPEG with compression quality 0.9 (adjust as needed)
+        // This creates clean JPEG data without any HDR gain maps
+        return bitmapRep.representation(using: .jpeg, properties: [.compressionFactor: 0.9])
+    }
+}
+
 
 
 

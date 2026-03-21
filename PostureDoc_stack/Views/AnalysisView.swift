@@ -44,6 +44,29 @@ class analysisData{
     var ltShoulderPos: itemData?
     var rtHipPos: itemData?
     var ltHipPos: itemData?
+    
+    func setCalcAmt(){
+        doCalc(item: &sHeadPos)
+        doCalc(item: &sShoulderPos)
+        doCalc(item: &sHipPos)
+        doCalc(item: &sKneePos)
+        doCalc(item: &sAnklePos)
+        
+        doCalc(item: &fHeadPos)
+        doCalc(item: &fHeartPos)
+
+        doCalc(item: &rtShoulderPos)
+        doCalc(item: &ltShoulderPos)
+        doCalc(item: &rtHipPos)
+        doCalc(item: &ltHipPos)
+ 
+      
+      }
+    
+    func doCalc(item: inout itemData?){
+        guard let amount = item?.amount else { return }
+        item?.calcAmt = amount * inchPerPixel
+    }
 }
 
 import SwiftUI
@@ -87,6 +110,11 @@ struct AnalysisView: View {
             }
             let name = globalData.nameRec?.fullName() ?? ""
             Text("Name: \(name)")
+            HStack{
+                Button("Generate Text"){
+                    generateText()
+                }.padding(10)
+            }
             VStack{
                 HStack {
                     ShowView(
@@ -103,7 +131,7 @@ struct AnalysisView: View {
                 .position(x: 300, y: 125)
                 
                 Text(AnalysisText)
-                    .position(x: 25, y: -90)
+                    .position(x: 25, y: -50)
                 
             }
             
@@ -133,9 +161,12 @@ struct AnalysisView: View {
         for point in sidePoints.points {
             setSValues(point: point)
         }
+        
     }
     
-
+    func generateText(){
+        
+    }
     
     func setSValues(point:  ThePoint){
         

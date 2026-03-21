@@ -46,10 +46,9 @@ import PhotosUI
         VStack{
             ZStack{
               if let data = thePicture.image, let theImage = NSImage(data: data) {
-                  Image(nsImage: theImage.toSDR())
-                        .allowedDynamicRange(.standard)
+                  Image(nsImage: theImage)
                         .resizable()
-                        .scaledToFit() // or .scaledToFill()
+                        .scaledToFit()
                         .transformEffect(transform)
                         .frame(width: pWIdth, height: pHeight)
                         .clipped()

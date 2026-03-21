@@ -14,13 +14,17 @@ struct PostureView: View {
 @Binding  var item: PostureAnalysis
 @State private var frontPoints: PointList
 @State private var sidePoints: PointList
-
+@State   var analysis: analysisData = analysisData()
+@State var AnalysisText: String = "-blank-"
+ @State   var height: CGFloat = 0.0
+ 
 static let pWIdth: CGFloat = 300
 static let pHeight: CGFloat = 450
 
 init(item: Binding<PostureAnalysis>) {
     _item = item
     
+   // _height = State(initialValue: CGFloat(globalData.nameRec?.height ?? 0.00 ))
     // Create separate instances for front and side views
     let frontTopMark = ThePoint(name: topMarkName, position: CGPoint(x: 0, y: 0),
                                containRect: CGRect(x: 0, y: 0, width: Self.pWIdth, height: 225), 
@@ -45,6 +49,66 @@ init(item: Binding<PostureAnalysis>) {
     // Load saved positions
     Self.readPoints(from: item.wrappedValue, into: front, and: side)
 }
+    
+    @State private var navigateToAnalysis = false
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            Text("Posture Analysis")
+                .font(.title)
+                .bold()
+            
+            Button("Analysis View") {
+                // Call your function here before navigating
+                calcPosture()
+              
+                generateText()
+                
+                // Then trigger navigation
+                navigateToAnalysis = true
+            }
+            .buttonStyle(.borderedProminent)
+            .navigationDestination(isPresented: $navigateToAnalysis) {
+                let height: CGFloat = globalData.nameRec?.height ?? 0
+                LazyView(AnalysisView(
+                    PAItem: item,
+                    frontPoints: frontPoints,
+                    sidePoints: sidePoints,
+                    height: height
+                ))
+            }
+            
+            Form {
+                DatePicker(
+                    "Date:",
+                    selection: $item.date,
+                    displayedComponents: .date
+                )
+            }
+            .frame(height: 60)
+            .padding(.horizontal)
+            
+            HStack(spacing: 20) {
+                ImageView(
+                    thePicture: $item.frontImage,
+                    thisView: "Front",
+                    thePoints: frontPoints
+                )
+                
+                ImageView(
+                    thePicture: $item.sideImage,
+                    thisView: "Side",
+                    thePoints: sidePoints
+                )
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .padding()
+        .onDisappear {
+            savePoints()
+        }
+        .navigationTitle("Posture Edit")
+    }
 
 static func createSidePoints(width: CGFloat, height: CGFloat, topMark: ThePoint, bottomMark: ThePoint) -> PointList {
     let points = PointList()
@@ -183,55 +247,160 @@ private func savePointsToModel(from pointList: PointList, to modelPoints: inout 
     }
 }
 
+    func calcPosture(){
+        
+        var top_y: CGFloat = 0
+        var bottom_y: CGFloat = 00.0
+        //var aHeight: Double = 0
+      //      nameRec = globalData.nameRec
+        for point in frontPoints.points {
+             setFValues(point: point, top_y: &top_y, bottom_y: &bottom_y)
+         }
+         
+      
+        self.height = CGFloat(globalData.nameRec?.height ?? 0.0)
+        analysis.inchPerPixel = height / (bottom_y - top_y)
+        
+        for point in sidePoints.points {
+            setSValues(point: point)
+        }
+        
+        analysis.setCalcAmt()
+    }
+    
+    
+    
+    func generateText(){
+        
+    }
+    
+    func setSValues(point:  ThePoint){
+        
+        switch (point.name){
+        case  "Head-Side":
+            analysis.sHeadPos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.x,
+                                         calcAmt: 0.00)
+            break
+        case  "Shoulder":
+            analysis.sShoulderPos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.x,
+                                             calcAmt: 0.00)
+            break
+        case "Hip":
+            analysis.sHipPos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.x,
+                                        calcAmt: 0.00)
+            break
+        case  "Knee":
+            analysis.sKneePos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.x,
+                                         calcAmt: 0.00)
+            break
+        case  "Ankle":
+            analysis.sAnklePos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.x,
+                                          calcAmt: 0.00)
+            break
+        default:
+            break
 
-var body: some View {
-    VStack(spacing: 16) {
-        Text("Posture Analysis")
-            .font(.title)
-            .bold()
-        
-        NavigationLink("Analysis View") {
-            let height: CGFloat = globalData.nameRec?.height ?? 0
-            LazyView(    AnalysisView(
-                PAItem: item,
-                frontPoints: frontPoints,
-                sidePoints: sidePoints,
-                height: height
-            ))
         }
-        .buttonStyle(.borderedProminent)
         
-        Form {
-            DatePicker(
-                "Date:",
-                selection: $item.date,
-                displayedComponents: .date
-            )
-        }
-        .frame(height: 60)
-        .padding(.horizontal)
-        
-        HStack(spacing: 20) {
-            ImageView(
-                thePicture: $item.frontImage,
-                thisView: "Front",
-                thePoints: frontPoints
-            )
+    }
+    
+    /*
+     var sHeadPos: itemData?
+     var sShoulderPos: itemData?
+     var sHipPos: itemData?
+     var sKneePos: itemData?
+     var sAnklePos: itemData?
+     var fHeadPos: itemData?
+     var fHeartPos: itemData?
+     var fNavelPos: itemData?
+     var fFeetPos: itemData?
+     var rtShoulderPos: itemData?
+     var ltShoulderPos: itemData?
+     var rtHipPos: itemData?
+     var ltHipPos: itemData?
+     */
+    
+    func setFValues(point:  ThePoint, top_y: inout CGFloat, bottom_y: inout CGFloat){
+        let zeroPoint:CGPoint =  CGPoint(x: 300 / 2, y: 0)
+      
+        switch(point.name){
+        case "Head":
+            analysis.fHeadPos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.x,
+                                         calcAmt: 0.00)
+            break
+        case "Heart":
+            analysis.fHeartPos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.x)
+
+            break
+        case "Navel":
+            analysis.fNavelPos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.x,
+                                          calcAmt: 0.00)
+
+            break
+        case  "Feet":
+            analysis.fFeetPos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.x,
+                                         calcAmt: 0.00)
+
+            break
+        case  "Rt Shoulder":
+            analysis.rtShoulderPos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.y,
+                                              calcAmt: 0.00)
+
+            break
+        case   "Lt Shoulder":
+            analysis.ltShoulderPos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.y,
+                                              calcAmt: 0.00)
+
+            break
+        case  "Rt Hip":
+            analysis.rtHipPos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.y,
+                                         calcAmt: 0.00)
+
+            break
+        case  "Lt Hip":
+            analysis.ltHipPos = itemData(name: point.name,
+                                    shift: .none,
+                                amount: point.position.y,
+                                         calcAmt: 0.00)
+
+            break
+        case  "TopMark":
+            top_y = point.position.y
+            break
+        case "BottomMark":
+            bottom_y = point.position.y
+            break
+        default:
+            break
             
-            ImageView(
-                thePicture: $item.sideImage,
-                thisView: "Side",
-                thePoints: sidePoints
-            )
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+
     }
-    .padding()
-    .onDisappear {
-        savePoints()
-    }
-    .navigationTitle("Posture Edit")
-}
+
 }
 
 #Preview {
