@@ -1,0 +1,94 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "antHead" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anterior shift of the head is generally caused by a pattern of hypertonic upper trapezius and SCM muscles with weakness in the deep neck flexors of the neck.  This is caused by supporting the shoulder blades with the upper trapezius and thus \"hanging\" the arms from the neck rather than supporting them from the mid back.  To break this pattern exercises should be initiated that stretch the scalenes, upper trapezius and SCM muscles while strengthening the deep neck flexors along with the middle and lower trapezius muscles."
+          }
+        }
+      }
+    },
+    "antHip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anterior shift of the hips is generally caused by a pattern of hypertonic quadratus lumborum and psoas muscles along with weakness and under activity in the abdominal muscles.  This is due to using the psoas to control flexion of the trunk rather than the abdominals.  This results in a tendency for the motion of the pelvis to track with the legs rather than bind to the trunk producing a hyper-extension at the lumbosacral junction on leg extension rather than extension at the hip joint.  To break this pattern, exercises should be initiated that stretch the quadratus lumborum and psoas muscles while strengthening and increasing the coordination in the abdominal muscles."
+          }
+        }
+      }
+    },
+    "antShoulders" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anterior shift of the shoulders generally results from \"rounding\" of the shoulders due to weakness in the middle and lower trapezius muscles with hypertension in the pectoralis muscles.  It can also be the result of leaning forward of the trunk which is frequently caused from chronic lower back pain and the person leaning forward to try to keep pressure off the lower back."
+          }
+        }
+      }
+    },
+    "hipUnlevel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An unleveling of the hips is generally from one of two problems.  Either one leg is shorter than the other or there is a \"torquing\" of the pelvis due to a muscle imbalance generally involving the psoas muscles.  If the cause is an actual short leg then if severe enough it needs to be corrected for with either a heel lift in one side or a building up of the sole of the shoe on that side.  If is due to a muscular imbalance and torquing of the pelvis, generally stretching ot the psoas muscles and abdominal strengthening are indicated."
+          }
+        }
+      }
+    },
+    "postHead" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A posterior shift in the head behind the gravity line is generally due to a shift of the shoulders front of the gravity line which is caused by weakness in the abdominal muscles allowing the trunk of the body to shift forward."
+          }
+        }
+      }
+    },
+    "postHip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A posterior shift in the hips generally results from an imbalance in strength between the quadriceps(too strong) and the hamstrings (too weak).  Correction involves stretching the quadriceps and strengthening the hamstrings."
+          }
+        }
+      }
+    },
+    "postShoulders" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A posterior shift in the shoulders is generally due to a weakness in the abdominal muscles with tension in the quadratus lumborum and psoas muscles.   Correction involves stretching the lower back and psoas muscles while strengthening and increasing coordination in the abdominal muscles."
+          }
+        }
+      }
+    },
+    "shoulderUnlevel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An unleveling of the shoulders is generally a sign that there is an underlying scoliosis in the spine.  This should be evaluated by a physician to determine its severity and whether it is progressive.  Stretches and strengthening exercises should be done on a regular basis to stretch the tight (usually low) side and strengthen the weak (usually high) side."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

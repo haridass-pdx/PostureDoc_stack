@@ -9,8 +9,32 @@ enum shiftStr: String, CaseIterable {
     case rightSide = "right"
     case anterior = "anterior"
     case posterior = "posterior"
+    case high = "high"
+    case low = "low"
     case none = "none"
 }
+
+enum shiftArea: String, CaseIterable {
+    case head = "head"
+    case shoulder = "shoulder"
+    case hip = "hip"
+    case knee = "knee"
+    case ankle = "ankle"
+    case headLat = "headLat"
+    case heart = "heart"
+    case navel = "navel"
+    case highShoulder = "high shoulder"
+    case highHip = "high hip"
+}
+
+struct shiftData: Identifiable{
+    var id: UUID = UUID()
+    var name: String = ""
+    var direction: shiftStr = .none
+    var amount: CGFloat = .zero
+    var printStr: String = ""
+}
+
 struct itemData {
     var name: String = ""
     var shift: shiftStr = .none
@@ -74,9 +98,10 @@ let scaleAmt = 0.5
 
 struct AnalysisView: View {
     @EnvironmentObject  var globalData: globalDataRec
-    @State var AnalysisText: String = "-blank-"
+    @State var AnalysisText: String
     @State var nameRec:   Item?
     var PAItem: PostureAnalysis
+    @State var shiftArray: [shiftData]
     var height: CGFloat
     var frontPoints: PointList = PointList()
     var sidePoints: PointList = PointList()
@@ -87,14 +112,17 @@ struct AnalysisView: View {
     init(PAItem: PostureAnalysis,
          frontPoints: PointList,
          sidePoints: PointList,
-            height: CGFloat) {
+            height: CGFloat,
+            shiftArray: [shiftData],
+         AnalysisText: String) {
         self.PAItem = PAItem
         self.frontPoints = frontPoints
         self.sidePoints = sidePoints
         self.height = height
+        self.shiftArray = shiftArray
+        self.AnalysisText = AnalysisText
         
-        
-        calcPosture()
+      //  calcPosture()
     }
     
     var body: some View {
@@ -110,28 +138,33 @@ struct AnalysisView: View {
             }
             let name = globalData.nameRec?.fullName() ?? ""
             Text("Name: \(name)")
-            HStack{
-                Button("Generate Text"){
-                    generateText()
-                }.padding(10)
-            }
+            
             VStack{
-                HStack {
-                    ShowView(
-                        thePicture: PAItem.frontImage,
-                        thisView: "Front",
-                        thePoints: frontPoints  )
-                    .scaleEffect(scaleAmt)
-                    ShowView(thePicture: PAItem.sideImage,
-                             thisView: "Side",
-                             thePoints: sidePoints)
+                HStack{
+                    HStack {
+                        ShowView(
+                            thePicture: PAItem.frontImage,
+                            thisView: "Front",
+                            thePoints: frontPoints  )
+                        //.scaleEffect(scaleAmt)
+                        ShowView(thePicture: PAItem.sideImage,
+                                 thisView: "Side",
+                                 thePoints: sidePoints)
+                        //.scaleEffect(scaleAmt)
+                    }
                     .scaleEffect(scaleAmt)
                     
+                    DisplacementList
+                        .offset(x: -80, y: 0)
+                    
                 }
+                .frame(width: 300)
                 .position(x: 300, y: 125)
+
                 
                 Text(AnalysisText)
-                    .position(x: 25, y: -50)
+                    .frame(width: 700, height: 450)
+                   .position(x: 350, y: 160)
                 
             }
             
@@ -139,12 +172,34 @@ struct AnalysisView: View {
         }
         .padding(.leading, 50)
         .navigationTitle("Back to Edit")
-        .task{
+    /*    .task{
             calcPosture()
-        }
+        }*/
     }
     
-    func calcPosture(){
+    var DisplacementList: some View {
+        
+        
+        
+        Table(shiftArray) {
+            TableColumn("Area", value: \.name)
+                .width(90)
+            TableColumn("Direction", value: \.direction.rawValue)
+                .width(75)
+            TableColumn("Amount") { item in
+                Text(String(format: "%.2f", abs(item.amount))) + Text(" in")
+            }
+            .width(75)
+        }
+        .frame(width: 275, height: 175)
+                        
+        }
+        
+   
+
+    
+    
+  /*  func calcPosture(){
         
         var top_y: CGFloat = 0
         var bottom_y: CGFloat = 00.0
@@ -163,10 +218,11 @@ struct AnalysisView: View {
         }
         
     }
-    
+
     func generateText(){
         
     }
+   */
     
     func setSValues(point:  ThePoint){
         

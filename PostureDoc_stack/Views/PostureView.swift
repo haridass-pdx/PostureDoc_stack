@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Foundation
 
 
 struct PostureView: View {
@@ -17,7 +17,7 @@ struct PostureView: View {
 @State   var analysis: analysisData = analysisData()
 @State var AnalysisText: String = "-blank-"
  @State   var height: CGFloat = 0.0
- 
+@State var shiftArray: [shiftData] = []
 static let pWIdth: CGFloat = 300
 static let pHeight: CGFloat = 450
 
@@ -74,7 +74,9 @@ init(item: Binding<PostureAnalysis>) {
                     PAItem: item,
                     frontPoints: frontPoints,
                     sidePoints: sidePoints,
-                    height: height
+                    height: height,
+                    shiftArray: shiftArray,
+                    AnalysisText: AnalysisText
                 ))
             }
             
@@ -266,11 +268,109 @@ private func savePointsToModel(from pointList: PointList, to modelPoints: inout 
         }
         
         analysis.setCalcAmt()
+        calcShift()
+    
     }
     
-    
+    /*
+     var sHeadPos: itemData?
+     var sShoulderPos: itemData?
+     var sHipPos: itemData?
+     var sKneePos: itemData?
+     var sAnklePos: itemData?
+     var fHeadPos: itemData?
+     var fHeartPos: itemData?
+     var fNavelPos: itemData?
+     var fFeetPos: itemData?
+     var rtShoulderPos: itemData?
+     var ltShoulderPos: itemData?
+     var rtHipPos: itemData?
+     var ltHipPos: itemData?
+     */
+      
+    func localizedString(forKey key: String, bundle: Bundle = .main, table: String? = "Posture") -> String {
+        // String(localized: ...) is the modern API that uses LocalizedStringResource internally
+        // and is extracted by the compiler into the String Catalog.
+        // However, the String(localized:) initializer is generally used with generated symbols,
+        // not dynamic keys like this function uses.
+        
+        // For a dynamic key lookup at runtime, use NSLocalizedString:
+        return NSLocalizedString(key, tableName: table, bundle: bundle, comment: "")
+    }
+
+    func calcShift(){
+        shiftArray.removeAll()
+        
+        for shift in shiftArea.allCases{
+            var shiftItem = shiftData()
+            shiftItem.name = shift.rawValue
+            
+            
+            switch shift{
+            case .head:
+                shiftItem.amount = analysis.sHeadPos!.calcAmt - analysis.sShoulderPos!.calcAmt
+                shiftItem.direction  = shiftItem.amount > 0 ? .anterior : .posterior
+                shiftItem.printStr = shiftItem.direction == .anterior ? localizedString(forKey: "antHead") : localizedString(forKey: "postHead")
+                shiftArray.append(shiftItem)
+                break
+            case .shoulder:
+                shiftItem.amount = analysis.sShoulderPos!.calcAmt - analysis.sHipPos!.calcAmt
+                shiftItem.direction  = shiftItem.amount > 0 ? .anterior : .posterior
+                shiftItem.printStr = shiftItem.direction == .anterior ? localizedString(forKey: "antShoulders") : localizedString(forKey: "postShoulders")
+                shiftArray.append(shiftItem)
+
+                break
+            case .hip:
+                shiftItem.amount = analysis.sHipPos!.calcAmt - analysis.sKneePos!.calcAmt
+                shiftItem.direction  = shiftItem.amount > 0 ? .anterior : .posterior
+                shiftItem.printStr = shiftItem.direction == .anterior ? localizedString(forKey: "antHip") : localizedString(forKey: "postHip")
+                shiftArray.append(shiftItem)
+
+                break
+            case .knee:
+                shiftItem.amount = analysis.sKneePos!.calcAmt - analysis.sAnklePos!.calcAmt
+                shiftItem.direction  = shiftItem.amount > 0 ? .anterior : .posterior
+                shiftItem.printStr = shiftItem.direction == .anterior ? localizedString(forKey: "antKnee") : localizedString(forKey: "postKnee")
+            // no text    shiftArray.append(shiftItem)
+
+                break
+            case .ankle:
+                break
+            case .headLat:
+               
+
+                break
+            case .heart:
+                break
+            case .navel:
+                break
+            case .highShoulder:
+                shiftItem.amount = analysis.rtShoulderPos!.calcAmt - analysis.ltShoulderPos!.calcAmt
+                shiftItem.direction  = shiftItem.amount < 0 ? .rightSide : .leftSide
+                shiftItem.printStr =  localizedString(forKey: "shoulderUnlevel")
+                shiftArray.append(shiftItem)
+                break
+            case .highHip:
+                shiftItem.amount = analysis.rtHipPos!.calcAmt - analysis.ltHipPos!.calcAmt
+                shiftItem.direction  = shiftItem.amount < 0 ? .rightSide : .leftSide
+                shiftItem.printStr =  localizedString(forKey: "hipUnlevel")
+                shiftArray.append(shiftItem)
+
+                break
+            }
+            
+        }
+        
+    }
     
     func generateText(){
+        AnalysisText = ""
+        for element in shiftArray {
+            let text: String = element.printStr
+            AnalysisText += text
+            AnalysisText += "\n\n"
+        }
+        
         
     }
     
