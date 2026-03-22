@@ -4,6 +4,7 @@
 //
 //  Created by Hari Dass Khalsa on 3/13/26.
 //
+internal import UniformTypeIdentifiers
 enum shiftStr: String, CaseIterable {
     case leftSide = "left"
     case rightSide = "right"
@@ -94,6 +95,9 @@ class analysisData{
 }
 
 import SwiftUI
+import AppKit
+import PDFKit
+
 let scaleAmt = 0.5
 
 struct AnalysisView: View {
@@ -107,6 +111,7 @@ struct AnalysisView: View {
     var sidePoints: PointList = PointList()
     
     @State   var analysis: analysisData = analysisData()
+    @State private var showingShareSheet = false
     
     
     init(PAItem: PostureAnalysis,
@@ -131,6 +136,22 @@ struct AnalysisView: View {
                 Text("Posture Analysis")
                     .font(Font.largeTitle)
                 Spacer()
+                
+                // Action buttons
+                Button(action: printPDF) {
+                    Label("Print", systemImage: "printer")
+                }
+                .help("Print this analysis")
+                
+                Button(action: emailPDF) {
+                    Label("Email", systemImage: "envelope")
+                }
+                .help("Email this analysis as PDF")
+                
+                Button(action: savePDF) {
+                    Label("Save PDF", systemImage: "arrow.down.doc")
+                }
+                .help("Save analysis as PDF")
             }
             HStack{
                 
@@ -351,6 +372,309 @@ struct AnalysisView: View {
 
     }
     
+    // MARK: - PDF Generation and Actions
+    
+    /// Creates a PDF document from the current view
+    private func generatePDF() -> Data? {
+        // Create a printable version of the view without the action buttons
+        let printView = PrintableAnalysisView(
+            PAItem: PAItem,
+            frontPoints: frontPoints,
+            sidePoints: sidePoints,
+            height: height,
+            shiftArray: shiftArray,
+            AnalysisText: AnalysisText,
+            globalData: globalData
+        )
+        
+        let renderer = ImageRenderer(content: printView)
+        
+        // Set the scale for better quality
+        renderer.scale = 2.0
+        
+        // Standard US Letter size in points (8.5" x 11")
+        let pageWidth: CGFloat = 612
+        let pageHeight: CGFloat = 792
+        
+        renderer.proposedSize = ProposedViewSize(width: pageWidth, height: pageHeight)
+        
+        // Render to PDF
+        let pdfData = NSMutableData()
+        guard let consumer = CGDataConsumer(data: pdfData as CFMutableData),
+              let pdfContext = CGContext(consumer: consumer, mediaBox: nil, nil) else {
+            return nil
+        }
+        
+        var mediaBox = CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight)
+        
+        pdfContext.beginPage(mediaBox: &mediaBox)
+        renderer.render { size, renderer in
+            renderer(pdfContext)
+        }
+        pdfContext.endPage()
+        pdfContext.closePDF()
+        
+        return pdfData as Data
+    }
+    
+    /// Prints the analysis report
+    private func printPDF() {
+        guard let pdfData = generatePDF() else {
+            print("Failed to generate PDF")
+            return
+        }
+        
+        // Create a temporary file URL for the PDF
+        let tempURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("PostureAnalysis_\(UUID().uuidString).pdf")
+        
+        do {
+            try pdfData.write(to: tempURL)
+            
+            // Open print dialog
+            let printInfo = NSPrintInfo.shared
+            printInfo.horizontalPagination = .fit
+            printInfo.verticalPagination = .fit
+            printInfo.isHorizontallyCentered = true
+            printInfo.isVerticallyCentered = true
+            
+            if let pdfDoc = PDFDocument(url: tempURL) {
+                let printOperation = pdfDoc.printOperation(for: printInfo, scalingMode: .pageScaleToFit, autoRotate: true)
+                printOperation?.runModal(for: NSApp.keyWindow ?? NSWindow(), delegate: nil, didRun: nil, contextInfo: nil)
+            }
+            
+            // Clean up temporary file
+            try? FileManager.default.removeItem(at: tempURL)
+        } catch {
+            print("Error printing PDF: \(error)")
+        }
+    }
+    
+    /// Saves the PDF to a user-selected location
+    private func savePDF() {
+        guard let pdfData = generatePDF() else {
+            print("Failed to generate PDF")
+            return
+        }
+        
+        let savePanel = NSSavePanel()
+        savePanel.allowedContentTypes = [.pdf]
+        savePanel.canCreateDirectories = true
+        savePanel.isExtensionHidden = false
+        
+        let name = globalData.nameRec?.fullName() ?? "Patient"
+        let dateString = PAItem.date.formatted(date: .numeric, time: .omitted)
+        savePanel.nameFieldStringValue = "PostureAnalysis_\(name)_\(dateString).pdf"
+        
+        savePanel.begin { response in
+            if response == .OK, let url = savePanel.url {
+                do {
+                    try pdfData.write(to: url)
+                    print("PDF saved successfully to \(url)")
+                } catch {
+                    print("Error saving PDF: \(error)")
+                }
+            }
+        }
+    }
+    
+    /// Opens email client with PDF attached
+    private func emailPDF() {
+        guard let pdfData = generatePDF() else {
+            print("Failed to generate PDF")
+            return
+        }
+        
+        // Create a temporary file URL for the PDF
+        let tempURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("PostureAnalysis.pdf")
+        
+        do {
+            try pdfData.write(to: tempURL)
+            
+            // Create email with attachment using NSSharingService
+            let sharingService = NSSharingService(named: .composeEmail)
+            
+            let name = globalData.nameRec?.fullName() ?? "Patient"
+            let dateString = PAItem.date.formatted(date: .abbreviated, time: .omitted)
+            
+            sharingService?.subject = "Posture Analysis Report - \(name) - \(dateString)"
+            
+            if sharingService?.canPerform(withItems: [tempURL]) == true {
+                sharingService?.perform(withItems: [tempURL])
+            } else {
+                // Fallback: open in workspace
+                NSWorkspace.shared.open(tempURL)
+            }
+        } catch {
+            print("Error emailing PDF: \(error)")
+        }
+    }
+    
+}
+
+// MARK: - Printable Version of Analysis View
+
+/// A version of AnalysisView optimized for printing/PDF export (without action buttons)
+struct PrintableAnalysisView: View {
+    var PAItem: PostureAnalysis
+    var frontPoints: PointList
+    var sidePoints: PointList
+    var height: CGFloat
+    var shiftArray: [shiftData]
+    var AnalysisText: String
+    var globalData: globalDataRec
+    
+    let leftEdge: CGFloat = 250
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            GeometryReader{ proxy in
+                // Header
+                VStack{
+                    HStack(alignment: .firstTextBaseline, spacing: 5){
+                        Text("Posture Analysis Report for: ")
+                            .font(.body)
+                            .fontWeight(.bold)
+                        Text(" \(globalData.nameRec?.fullName() ?? "N/A") ")
+                        Spacer()
+                        Text("Date: \(PAItem.date.formatted(date: .abbreviated, time: .omitted))")
+                    }
+                    Divider()
+            }
+              .frame(width: proxy.size.width  , height: 30)
+              
+                   // Images and Displacement Table
+                HStack(alignment: .center, spacing: 20) {
+                    // Images
+                    HStack(spacing: 10) {
+                        VStack {
+                          /*  Text("Front View")
+                                .font(.caption)
+                                .fontWeight(.semibold)*/
+                            ShowView(
+                                thePicture: PAItem.frontImage,
+                                thisView: "Front",
+                                thePoints: frontPoints
+                            )
+                        }
+                        
+                        VStack {
+                          /*  Text("Side View")
+                                .font(.caption)
+                                .fontWeight(.semibold)*/
+                            ShowView(
+                                thePicture: PAItem.sideImage,
+                                thisView: "Side",
+                                thePoints: sidePoints
+                            )
+                        }
+                    }
+                    .scaleEffect(0.4)
+                    
+                    // Displacement Table
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Postural Deviations")
+                            .font(.subheadline)
+                            .padding(.bottom, 5)
+                        
+                        // Custom table header
+                        HStack(spacing: 0) {
+                            Text("Area")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .frame(width: 90, alignment: .leading)
+                            Text("Direction")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .frame(width: 75, alignment: .leading)
+                            Text("Amount")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .frame(width: 75, alignment: .leading)
+                        }
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 6)
+                        .background(Color.gray.opacity(0.2))
+                        
+                        Divider()
+                        
+                        // Table rows
+                        VStack(spacing: 0) {
+                            ForEach(shiftArray) { item in
+                                HStack(spacing: 0) {
+                                    Text(item.name)
+                                        .font(.caption)
+                                        .frame(width: 90, alignment: .leading)
+                                    Text(item.direction.rawValue)
+                                        .font(.caption)
+                                        .frame(width: 75, alignment: .leading)
+                                    Text(String(format: "%.2f in", abs(item.amount)))
+                                        .font(.caption)
+                                        .frame(width: 75, alignment: .leading)
+                                }
+                                .padding(.vertical, 3)
+                                .padding(.horizontal, 6)
+                                .background(shiftArray.firstIndex(where: { $0.id == item.id })! % 2 == 0 ? Color.clear : Color.gray.opacity(0.05))
+                                
+                                if item.id != shiftArray.last?.id {
+                                    Divider()
+                                }
+                            }
+                        }
+                    }
+                    .frame(width: 260)
+                   
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4)
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                    )
+                    .offset(x: -130, y: 0)
+                }
+                .position(x: leftEdge, y: 125)
+                .padding(.vertical, 10)
+                
+             //   Divider()
+                
+                // Analysis Text
+               
+                                        
+                VStack(alignment: .leading, spacing: 5) {
+                    //Divider()
+
+                    Text("Analysis Notes:")
+                        .font(.subheadline)
+                        .padding(.bottom, 5)
+                }
+                .position(x: leftEdge, y: 245)
+                
+                    Text(AnalysisText)
+                        .font(.system(size: 10))
+                        // .background(Color.gray.opacity(0.1))
+                        .frame(width: proxy.size.width * 0.90, height: 500, alignment: .leading)
+                        .position(x: leftEdge, y: 450)
+                        
+               // Spacer()
+                
+                // Footer
+                VStack(alignment: .center) {
+                    Divider()
+                    Text("Analysis Report from Khalsa Pain Relief Clinic, P.C. 503-238-1032")
+                    
+                    Text("Generated on \(Date().formatted(date: .abbreviated, time: .shortened))")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        //.frame(maxWidth: .infinity, alignment: .trailing)
+                    
+                }
+                .frame(width: proxy.size.width * 0.95)
+                .position(x: leftEdge, y: proxy.size.height)
+
+            }
+        }
+        .padding(40)
+        .frame(width: 612, height: 792) // US Letter size
+    }
 }
    
 
