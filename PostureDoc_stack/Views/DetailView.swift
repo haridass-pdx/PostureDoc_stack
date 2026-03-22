@@ -25,50 +25,53 @@ struct DetailView : View {
         NavigationStack {
             
             
-            
-            VStack(alignment: .leading, spacing: 12) {
-                HStack{   TextField("First Name:", text: $item.firstname)
-                        .textFieldStyle(.roundedBorder)
-                    TextField("Last Name:", text: $item.lastname)
-                        .textFieldStyle(.roundedBorder)
+            Form{
+                VStack(alignment: .leading, spacing: 12) {
+                    Spacer()
+                    HStack{   TextField("First Name:", text: $item.firstname)
+                            .textFieldStyle(.roundedBorder)
+                        TextField("Last Name:", text: $item.lastname)
+                            .textFieldStyle(.roundedBorder)
+                        
+                    }
+                    HStack{
+                        TextField("Gender", text: $item.gender)
+                            .textFieldStyle(.roundedBorder)
+                        TextField("Height", value: $item.height, format: .number)
+                            .textFieldStyle(.roundedBorder)
+                    }
+                    Spacer()
+                    Text("  Posture List")
+                        .font(Font.headline.bold())
                     
-                }
-                HStack{
-                    TextField("Gender", text: $item.gender)
-                        .textFieldStyle(.roundedBorder)
-                    TextField("Height", value: $item.height, format: .number)
-                        .textFieldStyle(.roundedBorder)
-                }
-                Spacer()
-                Text("Posture List")
-                    .font(Font.headline.bold())
-                
-                HStack{
-                    //   Text("Posture Analysis:")
-                    List($item.postureAnalysis) { $posture in
-                        NavigationLink(posture.date.formatted(date: .abbreviated, time: .omitted)) {
-                            PostureView(item: $posture)
-                                .environmentObject(globalData)
-
+                    HStack{
+                        //   Text("Posture Analysis:")
+                        List($item.postureAnalysis) { $posture in
+                            NavigationLink(posture.date.formatted(date: .abbreviated, time: .omitted)) {
+                                PostureView(item: $posture)
+                                    .environmentObject(globalData)
+                                
+                            }
+                        }
+                        
+                        
+                        
+                    }
+                    .padding()
+                    .toolbar {
+                        ToolbarItem(placement: .automatic) {
+                            Button(action: {
+                                print("Button tapped")
+                                addPosture()
+                            }) {
+                                Image(systemName: "plus")
+                            }
                         }
                     }
-                    
-                    
-                    
+                    .navigationTitle("Posture List")
                 }
-                .padding()
-                .toolbar {
-                    ToolbarItem(placement: .automatic) {
-                        Button(action: {
-                            print("Button tapped")
-                            addPosture()
-                        }) {
-                            Image(systemName: "plus")
-                        }
-                    }
-                }
-                .navigationTitle("Posture List")
             }
+            .frame(width: 600)
         }
     }
      func addPosture(){

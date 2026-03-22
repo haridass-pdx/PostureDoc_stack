@@ -574,7 +574,7 @@ struct PrintableAnalysisView: View {
                     
                     // Displacement Table
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("Postural Deviations")
+                        Text("  Postural Deviations")
                             .font(.subheadline)
                             .padding(.bottom, 5)
                         
@@ -645,14 +645,14 @@ struct PrintableAnalysisView: View {
                     Text("Analysis Notes:")
                         .font(.subheadline)
                         .padding(.bottom, 5)
-                }
-                .position(x: leftEdge, y: 245)
+                
+                //.position(x: leftEdge, y: 245)
                 
                     Text(AnalysisText)
                         .font(.system(size: 10))
                         // .background(Color.gray.opacity(0.1))
-                        .frame(width: proxy.size.width * 0.90, height: 500, alignment: .leading)
-                        .position(x: leftEdge, y: 450)
+                }  .frame(width: proxy.size.width * 0.90, height: 500, alignment: .leading)
+                        .position(x: leftEdge, y: 460)
                         
                // Spacer()
                 
