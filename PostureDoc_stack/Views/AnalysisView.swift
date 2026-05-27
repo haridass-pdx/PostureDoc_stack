@@ -109,7 +109,8 @@ struct AnalysisView: View {
     var height: CGFloat
     var frontPoints: PointList = PointList()
     var sidePoints: PointList = PointList()
-    
+    var side_transform: CGAffineTransform
+    var front_transform: CGAffineTransform
     @State   var analysis: analysisData = analysisData()
     @State private var showingShareSheet = false
     
@@ -128,10 +129,24 @@ struct AnalysisView: View {
         self.AnalysisText = AnalysisText
         
       //  calcPosture()
+        let sideImage = PAItem.sideImage
+    
+         side_transform = CGAffineTransform(scaleX: sideImage.scale, y: sideImage.scale)
+            .rotated(by: sideImage.rotation) // Rotates by 45 degrees (radians)
+            .translatedBy(x: 50.00 , //sideImage.translation.x,
+                          y: 0.00 // sideImage.translation.y
+                            ) // Translates by 50 points
+        let frontImage = PAItem.frontImage
+         front_transform = CGAffineTransform(scaleX: frontImage.scale, y: frontImage.scale)
+            .rotated(by: frontImage.rotation) // Rotates by 45 degrees (radians)
+            .translatedBy(x: 0.00, //frontImage.translation.x,
+                          y:  0.00 //frontImage.translation.y
+                            ) // Translates by 50 points
+
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10){
+                VStack(alignment: .leading, spacing: 10){
             HStack{
                 Text("Posture Analysis")
                     .font(Font.largeTitle)
@@ -167,13 +182,15 @@ struct AnalysisView: View {
                             thePicture: PAItem.frontImage,
                             thisView: "Front",
                             thePoints: frontPoints  )
+                        .transformEffect(front_transform)
                         //.scaleEffect(scaleAmt)
                         ShowView(thePicture: PAItem.sideImage,
                                  thisView: "Side",
                                  thePoints: sidePoints)
-                        //.scaleEffect(scaleAmt)
+                        .transformEffect(side_transform)
+                       // .scaleEffect(scaleAmt)
                     }
-                    .scaleEffect(scaleAmt)
+                   .scaleEffect(scaleAmt)
                     
                     DisplacementList
                         .offset(x: -80, y: 0)
